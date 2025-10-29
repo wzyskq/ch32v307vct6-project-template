@@ -1,0 +1,90 @@
+version: "4.1"
+name: ch32v307vct6
+type: RISC-V
+deviceName: null
+packDir: null
+srcDirs:
+  - sdk
+  - user
+  - device
+virtualFolder:
+  name: <virtual_root>
+  files: []
+  folders: []
+dependenceList: []
+outDir: obj.eide
+miscInfo:
+  uid: 7831a29ccc5f5eebf4d88b78c9ebcd76
+targets:
+  Debug:
+    cppPreprocessAttrs:
+      defineList: []
+      incList:
+        - sdk/Peripheral/inc
+        - sdk/Core
+        - sdk/Debug
+        - device
+        - user
+      libList: []
+    excludeList:
+      - Startup/startup_ch32v30x_D8.S
+      - sdk/Startup/startup_ch32v30x_D8.S
+    toolchain: RISCV_GCC
+    toolchainConfigMap:
+      RISCV_GCC:
+        linkerScriptPath: sdk/Ld/Link.ld
+        options:
+          version: 2
+          afterBuildTasks:
+            - name: elf_to_lst
+              abortAfterFailed: false
+              command: '"${CompilerFolder}\${CompilerPrefix}objdump" --source --all-headers --demangle --disassemble "${OutDir}\${targetName}.elf" > "${OutDir}\${targetName}.lst"'
+              disable: false
+          asm-compiler:
+            ASM_FLAGS: -Wl,-Bstatic
+          beforeBuildTasks: []
+          c/cpp-compiler:
+            C_FLAGS: -Wl,-Bstatic
+            language-c: gnu11
+            language-cpp: c++20
+            no-exceptions: true
+            no-rtti: true
+            no-threadsafe-statics: true
+            no-use-cxa-atexit: true
+            one-elf-section-per-data: true
+            one-elf-section-per-function: true
+            optimization: level-debug
+            optimization-lto: true
+            signed-char: true
+            warnings: all-warnings
+          global:
+            abi: ilp32
+            arch: rv32imacxw
+            code-model: medlow
+            misc-control: -msmall-data-limit=8 -msave-restore -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized --specs=nano.specs --specs=nosys.specs
+            output-debug-info: enable
+          linker:
+            $toolName: auto
+            LD_FLAGS: -Xlinker --gc-sections -nostartfiles
+            output-format: elf
+            remove-unused-input-sections: true
+    uploadConfigMap:
+      Custom:
+        bin: ${ExecutableName}.bin
+        commandLine: download.cmd ${programFile}
+        eraseChipCommand: ""
+      JLink:
+        baseAddr: "0x08000000"
+        bin: ""
+        cpuInfo:
+          cpuName: STM32F103C8
+          vendor: ST
+        otherCmds: ""
+        proType: 1
+        speed: 8000
+      OpenOCD:
+        baseAddr: "0x08000000"
+        bin: ""
+        interface: ${workspaceFolder}/tools/wch-interface
+        target: ${workspaceFolder}/tools/wch-interface
+    uploader: OpenOCD

@@ -1,0 +1,16 @@
+{
+	"details": [
+		{
+			"file": "device/led.h",
+			"encoding": "utf8"
+		},
+		{
+			"file": "device/led.c",
+			"encoding": "utf8"
+		},
+		{
+			"file": "User/main.h",
+			"encoding": "utf8"
+		}
+	]
+}
