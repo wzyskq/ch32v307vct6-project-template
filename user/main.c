@@ -43,4 +43,20 @@ int main(void)
     printf("SystemClk:%d\r\n", SystemCoreClock);
     printf("ChipID:%08x\r\n", DBGMCU_GetCHIPID());
     printf("This is printf example\r\n");
+
+    led_init();
+
+    // led_off();
+
+    while (1)
+    {
+        led_off();
+        Delay_Ms(100);
+        led_on();
+        Delay_Ms(500);
+        led_off();
+        Delay_Ms(500);
+        led_on();
+        Delay_Ms(100);
+    }
 }

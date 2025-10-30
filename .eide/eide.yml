@@ -14,7 +14,7 @@ virtualFolder:
 dependenceList: []
 outDir: obj.eide
 miscInfo:
-  uid: 7831a29ccc5f5eebf4d88b78c9ebcd76
+  uid: eeccd801a121579e712f40921f0482e3
 targets:
   Debug:
     cppPreprocessAttrs:
@@ -71,7 +71,8 @@ targets:
     uploadConfigMap:
       Custom:
         bin: ${ExecutableName}.bin
-        commandLine: download.cmd ${programFile}
+        # commandLine: download.cmd ${programFile}
+        commandLine: download.cmd ./obj.eide/Debug/ch32v307vct6.bin
         eraseChipCommand: ""
       JLink:
         baseAddr: "0x08000000"
@@ -87,4 +88,5 @@ targets:
         bin: ""
         interface: ${workspaceFolder}/tools/wch-interface
         target: ${workspaceFolder}/tools/wch-interface
-    uploader: OpenOCD
+    uploader: Custom
+                                                                                         

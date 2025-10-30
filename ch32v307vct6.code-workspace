@@ -25,7 +25,11 @@
             "editor.autoIndent": "advanced"
         },
         "C_Cpp.errorSquiggles": "disabled",
-        "EIDE.SerialPortMonitor.BaudRate": 115200
+        "EIDE.SerialPortMonitor.BaudRate": 115200,
+        "terminal.integrated.shellIntegration.enabled": false,
+        "clangd.arguments": [
+            "--header-insertion=never"
+        ]
     },
     "extensions": {
         "recommendations": [
