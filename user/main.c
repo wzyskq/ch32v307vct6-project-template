@@ -38,25 +38,21 @@ int main(void)
 {
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
     SystemCoreClockUpdate();
-    Delay_Init();
-    USART_Printf_Init(115200);
-    printf("SystemClk:%d\r\n", SystemCoreClock);
-    printf("ChipID:%08x\r\n", DBGMCU_GetCHIPID());
-    printf("This is printf example\r\n");
+    delay_init();
+    // USART_Printf_Init(115200);
+    // printf("SystemClk:%d\r\n", SystemCoreClock);
+    // printf("ChipID:%08x\r\n", DBGMCU_GetCHIPID());
+    // printf("This is printf example\r\n");
 
-    led_init();
-
-    // led_off();
+    leds_init();
 
     while (1)
     {
-        led_off();
-        Delay_Ms(100);
-        led_on();
-        Delay_Ms(500);
-        led_off();
-        Delay_Ms(500);
-        led_on();
-        Delay_Ms(100);
+        led_on(1);
+        led_off(2);
+        delay_ms(500);
+        led_off(1);
+        led_on(2);
+        delay_ms(500);
     }
 }

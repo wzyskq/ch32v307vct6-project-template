@@ -19,20 +19,20 @@ static uint16_t p_ms = 0;
 #define DEBUG_DATA1_ADDRESS  ((volatile uint32_t*)0xE0000384)
 
 /*********************************************************************
- * @fn      Delay_Init
+ * @fn      delay_init
  *
  * @brief   Initializes Delay Funcation.
  *
  * @return  none
  */
-void Delay_Init(void)
+void delay_init(void)
 {
     p_us = SystemCoreClock / 8000000;
     p_ms = (uint16_t)p_us * 1000;
 }
 
 /*********************************************************************
- * @fn      Delay_Us
+ * @fn      delay_us
  *
  * @brief   Microsecond Delay Time.
  *
@@ -40,7 +40,7 @@ void Delay_Init(void)
  *
  * @return  None
  */
-void Delay_Us(uint32_t n)
+void delay_us(uint32_t n)
 {
     uint32_t i;
 
@@ -57,7 +57,7 @@ void Delay_Us(uint32_t n)
 }
 
 /*********************************************************************
- * @fn      Delay_Ms
+ * @fn      delay_ms
  *
  * @brief   Millisecond Delay Time.
  *
@@ -65,7 +65,7 @@ void Delay_Us(uint32_t n)
  *
  * @return  None
  */
-void Delay_Ms(uint32_t n)
+void delay_ms(uint32_t n)
 {
     uint32_t i;
 
@@ -157,8 +157,8 @@ void USART_Printf_Init(uint32_t baudrate)
 void SDI_Printf_Enable(void)
 {
     *(DEBUG_DATA0_ADDRESS) = 0;
-    Delay_Init();
-    Delay_Ms(1);
+    delay_init();
+    delay_ms(1);
 }
 
 /*********************************************************************
