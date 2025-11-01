@@ -18,7 +18,6 @@
 
 */
 
-#include "debug.h"
 #include "main.h"
 
 /* Global typedef */
@@ -31,17 +30,12 @@
  * \fn      main
  * \brief   主程序
  * \note    本项目基于 CH32V307VCT6 评估板进行开发
- *          外设暂时仅支持使用板载 LED 进行测试，请提前将 LED1/LED2 连线至 PA0/PA1
  */
 int main(void)
 {
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
     SystemCoreClockUpdate();
     delay_init();
-    // USART_Printf_Init(115200);
-    // printf("SystemClk:%d\r\n", SystemCoreClock);
-    // printf("ChipID:%08x\r\n", DBGMCU_GetCHIPID());
-    // printf("This is printf example\r\n");
 
     leds_init();
 

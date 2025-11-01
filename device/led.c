@@ -1,10 +1,12 @@
 #include "led.h"
 
+/* 静态变量 */
+
 static const u32 ledGpioRcc[2]      = {RCC_APB2Periph_GPIOA, RCC_APB2Periph_GPIOA};
 static const u16 ledGpioPin[2]      = {GPIO_Pin_0, GPIO_Pin_1};
 static GPIO_TypeDef *ledGpioPort[2] = {GPIOA, GPIOA};
 
-/* */
+/* 函数实现 */ 
 
 /******************************************************************
  * \brief  初始化 LED
