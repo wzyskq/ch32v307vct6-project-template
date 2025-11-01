@@ -1,12 +1,12 @@
 #include "led.h"
 
-/* 静态变量 */
+/* -------------------------------- Static Variables */
 
-static const u32 ledGpioRcc[2]      = {RCC_APB2Periph_GPIOA, RCC_APB2Periph_GPIOA};
-static const u16 ledGpioPin[2]      = {GPIO_Pin_0, GPIO_Pin_1};
-static GPIO_TypeDef *ledGpioPort[2] = {GPIOA, GPIOA};
+static const u32 ledRccGpio[3]      = {0, RCC_APB2Periph_GPIOA, RCC_APB2Periph_GPIOA};
+static const u16 ledGpioPin[3]      = {0, GPIO_Pin_0, GPIO_Pin_1};
+static GPIO_TypeDef *ledGpioPort[3] = {0, GPIOA, GPIOA};
 
-/* 函数实现 */ 
+/* -------------------------------- Global Functions */
 
 /******************************************************************
  * \brief  初始化 LED
@@ -16,10 +16,8 @@ static GPIO_TypeDef *ledGpioPort[2] = {GPIOA, GPIOA};
  */
 void led_init(u8 ledNum)
 {
-    ledNum += (ledNum > 0) ? -1 : 0; // 限幅转换为数组下标
     GPIO_InitTypeDef GPIO_InitStructure = {0};
-
-    RCC_APB2PeriphClockCmd(ledGpioRcc[ledNum], ENABLE);
+    RCC_APB2PeriphClockCmd(ledRccGpio[ledNum], ENABLE);
     GPIO_InitStructure.GPIO_Pin   = ledGpioPin[ledNum];
     GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
@@ -32,8 +30,8 @@ void led_init(u8 ledNum)
  */
 void leds_init(void)
 {
-    for (u8 i = 0; i < 2; i++)
-        led_init(i + 1);
+    for (u8 i = 1; i <= 2; i++)
+        led_init(i);
 }
 
 /******************************************************************
@@ -44,7 +42,6 @@ void leds_init(void)
  */
 void led_on(u8 ledNum)
 {
-    ledNum += (ledNum > 0) ? -1 : 0; // 限幅转换为数组下标
     GPIO_WriteBit(ledGpioPort[ledNum], ledGpioPin[ledNum], Bit_RESET);
 }
 
@@ -56,6 +53,32 @@ void led_on(u8 ledNum)
  */
 void led_off(u8 ledNum)
 {
-    ledNum += (ledNum > 0) ? -1 : 0; // 限幅转换为数组下标
     GPIO_WriteBit(ledGpioPort[ledNum], ledGpioPin[ledNum], Bit_SET);
+}
+
+/******************************************************************
+ * \brief  切换 LED 状态
+ * \param  ledNum LED 编号
+ *   \arg  1, 2
+ * \note   板载 LED 为低电平点亮
+ */
+void led_toggle(u8 ledNum)
+{
+    // 检测当前是否为熄灭状态
+    if (GPIO_ReadOutputDataBit(ledGpioPort[ledNum], ledGpioPin[ledNum]) == Bit_SET)
+        led_on(ledNum);
+    else
+        led_off(ledNum);
+}
+
+/******************************************************************
+ * \brief  切换指定范围 LED 状态
+ * \param  ledBeginNum 起始 LED 编号
+ * \param  ledEndNum 结束 LED 编号
+ * \note   板载 LED 为低电平点亮
+ */
+void leds_toggle(u8 ledBeginNum, u8 ledEndNum)
+{
+    for (u8 i = ledBeginNum; i <= ledEndNum; i++)
+        led_toggle(i);
 }

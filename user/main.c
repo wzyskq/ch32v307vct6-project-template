@@ -20,11 +20,9 @@
 
 #include "main.h"
 
-/* Global typedef */
+/* -------------------------------- Global Variable */
 
-/* Global define */
-
-/* Global Variable */
+/* -------------------------------- Main Function */
 
 /*********************************************************************
  * \fn      main
@@ -38,14 +36,20 @@ int main(void)
     delay_init();
 
     leds_init();
+    led_on(1);
+    led_off(2);
+
+    serial_init(1, 115200, 0); // USART1 初始化
+    serial_init(2, 115200, 1); // USART2 初始化
+    serial_init(3, 115200, 2); // USART3 初始化
+    serial_printf(USART3, "USART3~\r\n");
 
     while (1)
     {
-        led_on(1);
-        led_off(2);
         delay_ms(500);
-        led_off(1);
-        led_on(2);
+        leds_toggle(1, 2);
         delay_ms(500);
+        leds_toggle(1, 2);
+        // serial_printf(USART2, "...\r\n");
     }
 }

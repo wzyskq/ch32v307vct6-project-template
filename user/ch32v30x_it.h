@@ -14,6 +14,11 @@
 
 #include "main.h"
 
+void NMI_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void HardFault_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void USART1_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void USART2_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void USART3_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 
 #endif /* __CH32V30x_IT_H */
 
