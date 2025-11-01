@@ -28,11 +28,10 @@
 /* Global Variable */
 
 /*********************************************************************
- * @fn      main
- *
- * @brief   Main program.
- *
- * @return  none
+ * \fn      main
+ * \brief   主程序
+ * \note    本项目基于 CH32V307VCT6 评估板进行开发
+ *          外设暂时仅支持使用板载 LED 进行测试，请提前将 LED1/LED2 连线至 PA0/PA1
  */
 int main(void)
 {

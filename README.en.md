@@ -4,15 +4,15 @@ English | [简体中文](README.md)
 
 ## Overview
 
-This repository is originally generated using [MRS2 (MounRiver Studio Ⅱ)](https://www.mounriver.com). After significant modifications, it is now compatible with the VSCode [Embedded IDE](https://em-ide.com) plugin.
+- This repo is originally generated using [MRS2 (MounRiver Studio Ⅱ)](https://www.mounriver.com). After simple modifications, it is now compatible with the VSCode [Embedded IDE](https://em-ide.com) plugin.
 
-The author has not found a way to place MRS2 project files within a subdirectory, hence the root directory of this project appears cluttered.
+- I have not found a way to place MRS2 project files in subdirectories, so the root directory of this project may be somewhat cluttered.
 
 ## Usage
 
 ### Prerequisites
 1. Configure the toolchain and OpenOCD paths in EIDE.
-2. Download the repository archive or clone the project via Git:
+2. Download the repo zip or clone the project via Git:
 
 ```git
 git clone https://github.com/wzyskq/ch32v307vct6-project-template.git
@@ -26,15 +26,15 @@ Two configuration options are available; **Option 2** is set as default.
 
 **Option 1**
 
-Open `CH32V307VCT6.code-workspace` in VSCode. After EIDE recognizes the project, open the `.eide\eide.yml` file, and change the last line from `uploader: Custom` to `uploader: OpenOCD`. Then, follow the VSCode prompts to reload and update EIDE before compiling and flashing. (Ensure EIDE toolchain and OpenOCD paths are already configured.)
+Open VSCode with the `CH32V307VCT6.code-workspace` workspace file. After EIDE recognizes the project, open the `.eide\eide.yml` file, and change the last line from `uploader: Custom` to `uploader: OpenOCD`. Then, follow the VSCode prompts to reload and update EIDE before compiling and flashing. (Ensure EIDE toolchain and OpenOCD paths are already configured.)
 
 **Option 2**
 
-Open `CH32V307VCT6.code-workspace` in VSCode. Modify the OpenOCD path in the `download.cmd` (For Mac/Linux, you need to manually convert it) script located in the root directory to match your local path. Then compile and flash. (Ensure EIDE toolchain and OpenOCD paths are already configured.)
+Open VSCode with the `CH32V307VCT6.code-workspace` workspace file. Modify the OpenOCD path in the `download.cmd` (For Mac/Linux, you need to manually convert it) script located in the root directory to match your local path. Then compile and flash. (Ensure EIDE toolchain and OpenOCD paths are already configured.)
 
 **Explanation:**
 
-The author encountered an issue with Option 1 where flashing succeeds but verification fails, requiring a 20-second wait (even though the program is already flashed and running before the wait). Therefore, a custom flashing script `download.cmd` was written to skip the verification process. If Option 1 works fine for you, it is still recommended to use that option.
+I encountered an issue with Option 1 where flashing succeeds but verification fails, requiring a 20-second wait (even though the program is already flashed and running before the wait). Therefore, a custom flashing script `download.cmd` was written to skip the verification process. If Option 1 works fine for you, it is still recommended to use that option.
 
 ## Project Structure
 
@@ -67,19 +67,17 @@ The author encountered an issue with Option 1 where flashing succeeds but verifi
 - .template
 - LICENSE
 
-**VSCode Files:**
+**VSCode Project Files:**
 - ch32v307vct6.code-workspace (Workspace configuration file)
 - download.cmd (Custom flashing script)
 - .clang-format (Code formatting file)
 - .gitignore
 
-## Version History
-### t0.2
-- `Added` Onboard LED example files
-- `Added` LICENSE
+## Feedback
+If you have any questions or suggestions, feel free to submit an Issue or Pull Request via GitHub.
 
-### t0.1
-`Fixed` Custom flashing script without verification to avoid waiting 20 seconds after CRC verification errors
+## Version
+This project version can be found in the [VERSION](VERSION.md) file.
 
-### t0.0
-- `Added` Template files compatible with both MRS2 and VSCode EIDE
+## License
+This project is distributed under the MIT license. For detailed information, please refer to the [LICENSE](LICENSE) file.

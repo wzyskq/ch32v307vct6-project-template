@@ -6,12 +6,12 @@
 
 - 本仓库基于 [MRS2 (MounRiver Studio Ⅱ)](https://www.mounriver.com) 生成，经魔改后兼容 VSCode [Embedded IDE](https://em-ide.com) 插件
 
-- 笔者暂未发现 MRS2 项目文件能放置在子目录中，故本项目根目录较乱
+- 暂未发现 MRS2 项目文件能放置在子目录中，故本项目根目录也许较为混乱
 
-## 用法
+## 使用方法
 
-### 前置准备
-1. 配置 EIDE 的工具链和 OpenOCD 路径
+### 前置条件
+1. 配置 VSCode EIDE 的工具链和对应 OpenOCD 路径
 2. 下载**仓库压缩包**或者通过**Git**获取本项目
 ```git
 git clone https://github.com/wzyskq/ch32v307vct6-project-template.git
@@ -25,20 +25,20 @@ git clone https://github.com/wzyskq/ch32v307vct6-project-template.git
 
 **方案一**
 
-VSCode 打开 `CH32V307VCT6.code-workspace` 文件，被 EIDE 识别后打开 `.eide\eide.yml` 文件，修改最后一行的 `uploader: Custom` 为 `uploader: OpenOCD`，按照 VSCode 提示重新更新 EIDE 后编译烧录即可（请先配置 EIDE 的工具链和 OpenOCD 路径）
+VSCode 打开 `CH32V307VCT6.code-workspace` 工作区文件，被 EIDE 识别后打开 `.eide\eide.yml` 文件，修改最后一行的 `uploader: Custom` 为 `uploader: OpenOCD`，按照 VSCode 提示重新更新 EIDE 后编译烧录即可（请先配置 EIDE 的工具链和 OpenOCD 路径）
 
 **方案二**
 
-VSCode 打开 `CH32V307VCT6.code-workspace` 文件，修改根目录下 `download.cmd`（Mac/Linux 需要你手动转换）中 OpenOCD 的路径为自己电脑上的路径，编译烧录即可（请先配置 EIDE 的工具链和 OpenOCD 路径）
+VSCode 打开 `CH32V307VCT6.code-workspace` 工作区文件，修改根目录下 `download.cmd`（Mac/Linux 需要你手动转换）中 OpenOCD 的路径为自己电脑上的路径，编译烧录即可（请先配置 EIDE 的工具链和 OpenOCD 路径）
 
 
 **解释：**
 
-笔者在用方案一烧录时出现了能烧录，但是最后校验失败的问题，要多等待 20s（虽然等待前已经烧录好程序并运行了），所以自己改写了`download.cmd` 烧录脚本，去除了校验过程。如果你用方案一没有问题还是建议用方案一。
+我在用方案一烧录时出现了能烧录，但是最后校验失败的问题，要多等待 20s（虽然等待前已经烧录好程序并运行了），所以自己改写了`download.cmd` 烧录脚本，去除了校验过程。如果你用方案一没有问题还是建议用方案一。
 
-## 项目树
+## 项目结构
 
-**主项目结构**：
+**主项目树**：
 ```cmd
 .
 ├─.eide
@@ -59,28 +59,23 @@ VSCode 打开 `CH32V307VCT6.code-workspace` 文件，修改根目录下 `downloa
 └─user      （主函数/中断函数等文件）
 ```
 
-**MS2项目文件**：
+**MS2 项目文件**：
 - CH32V307VCT6.wvproj
 - CH32V307VCT6.launch
 - .cproject
 - .project
 - .template
-- LICENSE
 
-**VSCode文件**：
+**VSCode 项目文件**：
 - ch32v307vct6.code-workspace（工作区配置文件）
 - download.cmd               （自定义烧录脚本）
 - .clang-format              （代码风格文件）
-- .gitignore
 
-## 版本
+## 问题反馈
+如有任何问题或建议，欢迎通过 GitHub 提交 Issue 或 Pull Request。
 
-### t0.2
-- `新增` 板载 LED 示例文件
-- `新增` LICENSE
+## 版本历史
+本项目版本请参阅 [VERSION](VERSION.md) 文件。
 
-### t0.1
-- `修复` 自定义无校验烧录脚本，避免 CRC 校验报错后等待 20s
-
-### t0.0
-- `新增` 模板文件，兼容 MS2 和 VSCode EIDE
+## 许可证
+本项目基于 MIT 许可证进行分发。有关详细信息，请参阅 [LICENSE](LICENSE) 文件。
