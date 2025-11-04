@@ -10,17 +10,12 @@
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
 
-/*
- *@Note
- USART Print debugging routine:
- USART1_Tx(PA9).
- This example demonstrates using USART1(PA9) as a print debug port output.
-
-*/
-
 #include "main.h"
 
 /* -------------------------------- Global Variable */
+
+u8 infoFlag  = 1; // 信息标志
+u8 debugFlag = 0; // 调试标志
 
 /* -------------------------------- Main Function */
 
@@ -36,20 +31,25 @@ int main(void)
     delay_init();
 
     leds_init();
-    led_on(1);
-    led_off(2);
-
+    
     serial_init(1, 115200, 0); // USART1 初始化
     serial_init(2, 115200, 1); // USART2 初始化
     serial_init(3, 115200, 2); // USART3 初始化
-    serial_printf(USART3, "USART3~\r\n");
+    
+    leds_toggle(1, 2);
+    serial_printf(USART2, "USART2: online.\r\n");
 
     while (1)
     {
-        delay_ms(500);
-        leds_toggle(1, 2);
-        delay_ms(500);
-        leds_toggle(1, 2);
+        serial_decode_sig();
+        serial_decode_pkg();
+        serial_decode_pid();
+        serial_decode_cmd();
+
+        // delay_ms(500);
+        // leds_toggle(1, 2);
+        // delay_ms(500);
+        // leds_toggle(1, 2);
         // serial_printf(USART2, "...\r\n");
     }
 }

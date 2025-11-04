@@ -1,6 +1,6 @@
 #include "led.h"
 
-/* -------------------------------- Static Variables */
+/* -------------------------------- Static Constants */
 
 static const u32 ledRccGpio[3]      = {0, RCC_APB2Periph_GPIOA, RCC_APB2Periph_GPIOA};
 static const u16 ledGpioPin[3]      = {0, GPIO_Pin_0, GPIO_Pin_1};

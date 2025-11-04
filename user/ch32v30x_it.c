@@ -39,8 +39,8 @@ void HardFault_Handler(void)
 void USART1_IRQHandler(void)
 {
     if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET) {
-        u8 res = USART_ReceiveData(USART1);
-        serial_printf(USART1, "%c", res);
+        u8 rxData = USART_ReceiveData(USART1);
+        serial_printf(USART1, "%c", rxData);
         USART_ClearITPendingBit(USART1, USART_IT_RXNE);
     }
 }
@@ -51,9 +51,34 @@ void USART1_IRQHandler(void)
  */
 void USART2_IRQHandler(void)
 {
+    volatile static u8 rxNum = 0;
     if (USART_GetITStatus(USART2, USART_IT_RXNE) == SET) {
-        u8 res = USART_ReceiveData(USART2);
-        serial_printf(USART2, "%c", res);
+        u8 rxData = USART_ReceiveData(USART2);
+        if (rxData == '(') {
+            rxNum        = 2;
+            srlCmdBuf[0] = 0; // 长度位清零
+        } else if (rxData == '<') {
+            rxNum        = 3;
+            srlPidBuf[0] = 0; // 长度位清零
+        }
+
+        else if (rxNum == 2) {
+            if (rxData == ')') {
+                srlCmdBuf[srlCmdBuf[0] + 1] = '\0'; // 字符串结束符
+                srlCmdFlg                   = 1;    // 接收完成标志
+                rxNum                       = 0;
+            } else if (srlCmdBuf[0] < SRL_BUF_LLEN - 1) {
+                srlCmdBuf[++srlCmdBuf[0]] = rxData;
+            }
+        } else if (rxNum == 3) {
+            if (rxData == '>') {
+                srlPidBuf[srlPidBuf[0] + 1] = '\0'; // 字符串结束符
+                srlPidFlg                   = 1;    // 接收完成标志
+                rxNum                       = 0;
+            } else if (srlPidBuf[0] < SRL_BUF_MLEN - 1) {
+                srlPidBuf[++srlPidBuf[0]] = rxData;
+            }
+        }
         USART_ClearITPendingBit(USART2, USART_IT_RXNE);
     }
 }
@@ -64,9 +89,83 @@ void USART2_IRQHandler(void)
  */
 void USART3_IRQHandler(void)
 {
+    volatile static u8 rxNum = 0;
     if (USART_GetITStatus(USART3, USART_IT_RXNE) == SET) {
-        u8 res = USART_ReceiveData(USART3);
-        serial_printf(USART3, "%c", res);
+        u8 rxData = USART_ReceiveData(USART3);
+        if (rxData == '{') {
+            rxNum        = 1;
+            srlSigBuf[0] = 0; // 长度位清零
+        } else if (rxData == '[') {
+            rxNum        = 4;
+            srlPkgBuf[0] = 0; // 长度位清零
+        }
+
+        else if (rxNum == 1) {
+            if (rxData == '}') {
+                srlSigBuf[srlSigBuf[0] + 1] = '\0'; // 字符串结束符
+                srlSigFlg                   = 1;    // 接收完成标志
+                rxNum                       = 0;
+            } else if (srlSigBuf[0] < SRL_BUF_SLEN - 1) {
+                srlSigBuf[++srlSigBuf[0]] = rxData;
+            }
+        } else if (rxNum == 4) {
+            if (rxData == ']') {
+                srlPkgBuf[srlPkgBuf[0] + 1] = '\0'; // 字符串结束符
+                srlPkgFlg                   = 1;    // 接收完成标志
+                rxNum                       = 0;
+            } else if (srlPkgBuf[0] < SRL_BUF_LLEN - 1) {
+                srlPkgBuf[++srlPkgBuf[0]] = rxData;
+            }
+        }
+
         USART_ClearITPendingBit(USART3, USART_IT_RXNE);
     }
 }
+
+// volatile static u8 rxNum = 0;
+// if (USART_GetITStatus(USARTx, USART_IT_RXNE) == SET) {
+//     u8 rxData = USART_ReceiveData(USARTx);
+//     if (rxData == '{') {
+//         rxNum        = 1;
+//         srlSigBuf[0] = 0; // 长度位清零
+//     } else if (rxData == '(') {
+//         rxNum        = 2;
+//         srlCmdBuf[0] = 0; // 长度位清零
+//     } else if (rxData == '<') {
+//         rxNum        = 3;
+//         srlPidBuf[0] = 0; // 长度位清零
+//     } else if (rxData == '[') {
+//         rxNum        = 4;
+//         srlPkgBuf[0] = 0; // 长度位清零
+//     }
+//
+//     else if (rxNum == 1) {
+//         if (rxData == '}') {
+//             srlSigFlg = 1; // 接收完成标志
+//             rxNum     = 0;
+//         } else if (srlSigBuf[0] < SRL_BUF_SLEN - 1) {
+//             srlSigBuf[++srlSigBuf[0]] = rxData;
+//         }
+//     } else if (rxNum == 2) {
+//         if (rxData == ')') {
+//             srlCmdFlg = 1; // 接收完成标志
+//             rxNum     = 0;
+//         } else if (srlCmdBuf[0] < SRL_BUF_MLEN - 1) {
+//             srlCmdBuf[++srlCmdBuf[0]] = rxData;
+//         }
+//     } else if (rxNum == 3) {
+//         if (rxData == '>') {
+//             srlPidFlg = 1; // 接收完成标志
+//             rxNum     = 0;
+//         } else if (srlPidBuf[0] < SRL_BUF_MLEN - 1) {
+//             srlPidBuf[++srlPidBuf[0]] = rxData;
+//         }
+//     } else if (rxNum == 4) {
+//         if (rxData == ']') {
+//             srlPkgFlg = 1; // 接收完成标志
+//             rxNum     = 0;
+//         } else if (srlPkgBuf[0] < SRL_BUF_LLEN - 1) {
+//             srlPkgBuf[++srlPkgBuf[0]] = rxData;
+//         }
+//     }
+// }
