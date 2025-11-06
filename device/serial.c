@@ -52,9 +52,7 @@ volatile u8 srlPkgFlg = 0;
  * \brief  串口初始化
  * \param  srlNum 串口号 x=1,2,3
  * \param  baudRate 波特率
- * \param  subPriority 响应优先级 x=0~3
- *
- * \note   中断优先级：NVIC 分组1 (抢占1, 响应0~7)
+ * \param  subPriority 响应优先级
  */
 void serial_init(u8 srlNum, u32 baudRate, u8 subPriority)
 {
@@ -237,9 +235,10 @@ void serial_decode_pid(void)
  * \brief  解析 srlCmdBuf 数据包内容
  * \note   在主循环中调用，当 srlCmdFlg 为 1 时
  * \note   支持的命令：
- *           srl -r <x> <string>  向串口x发送字符串
- *           debug -i/-o          打开/关闭调试模式
- *           led -i/-o <x>        打开/关闭 LEDx
+ *           debug -i/-o              打开/关闭调试模式
+ *           srl -r <x> <str>         向串口x发送字符串
+ *           led -i/-o <x>            打开/关闭 LEDx
+ *           svo -p/-s <t> <c> <val>  设置指定时钟舵机位置/速度
  * \note   Q1: 为什么要用传递指针 rCmd？
  *         A1: 若直接将 strmatch_s 的值赋给 cCmd，一旦第一个条件不满足，其值会直接变成 NULL，导致后续判断无法进行
  */
@@ -252,16 +251,16 @@ void serial_decode_cmd(void)
     u8 *rCmd = NULL;          // 传递指针
     s16 arg  = 0;
 
-    if (rCmd = strmatch_s(cCmd, "srl")) {
-        if (cCmd = strmatch_s(rCmd, "-r")) {
-            arg = (u8)strtof(cCmd, &cCmd);
-            serial_printf(srlUartPort[arg], "%s\r\n", cCmd + 1);
-        }
-    } else if (rCmd = strmatch_s(cCmd, "debug")) {
+    if (rCmd = strmatch_s(cCmd, "debug")) {
         if (strmatch_s(rCmd, "-i"))
             debugFlag = 1;
         else if (strmatch_s(rCmd, "-o"))
             debugFlag = 0;
+    } else if (rCmd = strmatch_s(cCmd, "srl")) {
+        if (cCmd = strmatch_s(rCmd, "-r")) {
+            arg = (u8)strtof(cCmd, &cCmd);
+            serial_printf(srlUartPort[arg], "%s\r\n", cCmd + 1);
+        }
     } else if (rCmd = strmatch_s(cCmd, "led")) {
         if (cCmd = strmatch_s(rCmd, "-i")) {
             arg = strtof(cCmd, NULL);
@@ -270,13 +269,23 @@ void serial_decode_cmd(void)
             arg = strtof(cCmd, NULL);
             led_off(arg);
         }
-    } else if (rCmd = strmatch_s(cCmd, "servo")) {
+    } else if (rCmd = strmatch_s(cCmd, "svo")) {
+        u8 t = 0, c = 0;
         if (cCmd = strmatch_s(rCmd, "-p")) {
-            arg = strtof(cCmd, NULL); // 获取位置
-            servo_set_pos(3, 4, arg); // 设置舵机位置
+            t   = (u8)strtof(cCmd, &cCmd); // 获取舵机时钟
+            c   = (u8)strtof(cCmd, &cCmd); // 获取舵机通道
+            arg = strtof(cCmd, NULL);      // 获取位置
+            servo_set_pos(t, c, arg);      // 设置舵机位置
         } else if (cCmd = strmatch_s(rCmd, "-s")) {
-            arg = strtof(cCmd, NULL); // 获取速度
-            servo_set_spd(3, 4, arg); // 设置舵机速度
+            t   = (u8)strtof(cCmd, &cCmd); // 获取舵机时钟
+            c   = (u8)strtof(cCmd, &cCmd); // 获取舵机通道
+            arg = strtof(cCmd, NULL);      // 获取速度
+            servo_set_spd(t, c, arg);      // 设置舵机速度
+        } else if (cCmd = strmatch_s(rCmd, "-d")) {
+            t   = (u8)strtof(cCmd, &cCmd);   // 获取舵机时钟
+            c   = (u8)strtof(cCmd, &cCmd);   // 获取舵机通道
+            arg = strtof(cCmd, NULL);        // 获取占空比
+            timer_pwmOut_setDuty(t, c, arg); // 直接设置占空比
         }
     } else if (infoFlag) {
         serial_printf(USART2, "> Unknown CMD\n");

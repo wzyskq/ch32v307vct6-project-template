@@ -5,7 +5,7 @@
 
 /* -------------------------------- Global Functions */
 
-void timer_pwmOut_init(u8 timNum, u8 chNum, u16 arr, u16 psc);
+void timer_pwmOut_init(u8 timNum, u16 chNum, u16 arr, u16 psc);
 void timer_pwmOut_setDuty(u8 timNum, u8 chNum, u16 duty);
 
 #endif

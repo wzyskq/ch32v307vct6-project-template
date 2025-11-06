@@ -39,29 +39,47 @@ static const u16 timGpioPin[][4] = {
 /* -------------------------------------------------- Global Functions */
 
 /******************************************************************
- * \brief PWM 输出初始化
- * \param timNum 定时器编号 1~5、6~10
- * \param chNum 通道编号 1~4
- * \param arr 自动重装载值 + 1
- * \param psc 预分频值 + 1
+ * \brief  PWM 输出初始化
+ * \param  timNum 定时器编号 1~5、6~10
+ * \param  chNum 通道编号 1~4
+ * \param  arr 自动重装载值 + 1
+ * \param  psc 预分频值 + 1
+ * \note   chNum 通道可无序输入多个，如：
+ *         通道一和三：chNum = 13；
+ *         通道一、四和二：chNum = 142
  */
-void timer_pwmOut_init(u8 timNum, u8 chNum, u16 arr, u16 psc)
+void timer_pwmOut_init(u8 timNum, u16 chNum, u16 arr, u16 psc)
 {
     if (timNum <= 0 || timNum == 6 || timNum == 7 || timNum >= 11)
         return;
 
+    u8 chList[5] = {0}; // 通道列表
+
+    /* 拆分通道号 */
+    while (chNum) {
+        u8 digit = chNum % 10;
+        if (digit >= 1 && digit <= 4)
+            chList[++chList[0]] = digit;
+        chNum /= 10;
+    }
+
+    /* 开启时钟 */
     if (timNum == 1 || timNum >= 8)
         RCC_APB2PeriphClockCmd(timRccTim[timNum], ENABLE);
     else
         RCC_APB1PeriphClockCmd(timRccTim[timNum], ENABLE);
     RCC_APB2PeriphClockCmd(timRccGpio[timNum], ENABLE);
 
-    GPIO_InitTypeDef GPIO_InitStructure = {0};
-    GPIO_InitStructure.GPIO_Pin         = timGpioPin[timNum][chNum - 1];
-    GPIO_InitStructure.GPIO_Mode        = GPIO_Mode_AF_PP;
-    GPIO_InitStructure.GPIO_Speed       = GPIO_Speed_50MHz;
-    GPIO_Init(timGpioPort[timNum][chNum - 1], &GPIO_InitStructure);
+    /* GPIO 初始化 */
+    for (u8 i = 1; i <= chList[0]; i++) {
+        GPIO_InitTypeDef GPIO_InitStructure = {0};
+        GPIO_InitStructure.GPIO_Pin         = timGpioPin[timNum][chList[i] - 1];
+        GPIO_InitStructure.GPIO_Mode        = GPIO_Mode_AF_PP;
+        GPIO_InitStructure.GPIO_Speed       = GPIO_Speed_50MHz;
+        GPIO_Init(timGpioPort[timNum][chList[i] - 1], &GPIO_InitStructure);
+    }
 
+    /* TIM 初始化 */
     TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure = {0};
     TIM_TimeBaseInitStructure.TIM_Period              = arr - 1;            // 自动重装载值
     TIM_TimeBaseInitStructure.TIM_Prescaler           = psc - 1;            // 预分频值
@@ -69,47 +87,51 @@ void timer_pwmOut_init(u8 timNum, u8 chNum, u16 arr, u16 psc)
     TIM_TimeBaseInitStructure.TIM_CounterMode         = TIM_CounterMode_Up; // 向上计数模式
     TIM_TimeBaseInit(timTimePort[timNum], &TIM_TimeBaseInitStructure);
 
+    /* 各通道 PWM 模式配置 */
     TIM_OCInitTypeDef TIM_OCInitStructure = {0};
     TIM_OCInitStructure.TIM_OCMode        = TIM_OCMode_PWM1;        // 模式1：当计数器计数值<CCRx时，输出高电平，模式2反之
     TIM_OCInitStructure.TIM_OutputState   = TIM_OutputState_Enable; // 使能输出
     TIM_OCInitStructure.TIM_Pulse         = 0;                      // 初始占空比为0
     TIM_OCInitStructure.TIM_OCPolarity    = TIM_OCPolarity_High;    // 输出极性，高电平有效
-    // TIM_OC1Init(TIM1, &TIM_OCInitStructure);
-    if (chNum == 1)
-        TIM_OC1Init(timTimePort[timNum], &TIM_OCInitStructure);
-    else if (chNum == 2)
-        TIM_OC2Init(timTimePort[timNum], &TIM_OCInitStructure);
-    else if (chNum == 3)
-        TIM_OC3Init(timTimePort[timNum], &TIM_OCInitStructure);
-    else if (chNum == 4)
-        TIM_OC4Init(timTimePort[timNum], &TIM_OCInitStructure);
+    for (u8 i = 1; i <= chList[0]; i++) {
+        if (chList[i] == 1)
+            TIM_OC1Init(timTimePort[timNum], &TIM_OCInitStructure);
+        else if (chList[i] == 2)
+            TIM_OC2Init(timTimePort[timNum], &TIM_OCInitStructure);
+        else if (chList[i] == 3)
+            TIM_OC3Init(timTimePort[timNum], &TIM_OCInitStructure);
+        else if (chList[i] == 4)
+            TIM_OC4Init(timTimePort[timNum], &TIM_OCInitStructure);
+    }
 
+    /* 使能各通道 PWM 输出 */
     TIM_CtrlPWMOutputs(timTimePort[timNum], ENABLE);
-    // TIM_OC1PreloadConfig(TIM1, TIM_OCPreload_Disable);
-    if (chNum == 1)
-        TIM_OC1PreloadConfig(timTimePort[timNum], TIM_OCPreload_Enable);
-    else if (chNum == 2)
-        TIM_OC2PreloadConfig(timTimePort[timNum], TIM_OCPreload_Enable);
-    else if (chNum == 3)
-        TIM_OC3PreloadConfig(timTimePort[timNum], TIM_OCPreload_Enable);
-    else if (chNum == 4)
-        TIM_OC4PreloadConfig(timTimePort[timNum], TIM_OCPreload_Enable);
+    for (u8 i = 1; i <= chList[0]; i++) {
+        if (chList[i] == 1)
+            TIM_OC1PreloadConfig(timTimePort[timNum], TIM_OCPreload_Enable);
+        else if (chList[i] == 2)
+            TIM_OC2PreloadConfig(timTimePort[timNum], TIM_OCPreload_Enable);
+        else if (chList[i] == 3)
+            TIM_OC3PreloadConfig(timTimePort[timNum], TIM_OCPreload_Enable);
+        else if (chList[i] == 4)
+            TIM_OC4PreloadConfig(timTimePort[timNum], TIM_OCPreload_Enable);
+    }
     TIM_ARRPreloadConfig(timTimePort[timNum], ENABLE);
     TIM_Cmd(timTimePort[timNum], ENABLE);
 }
 
 /******************************************************************
- * \brief 设置 PWM 占空比
- * \param timNum 定时器编号 1~5、8~10
- * \param chNum 通道编号 1~4
- * \param duty 占空比 0~10000 (0.00% ~ 100.00%)
+ * \brief  设置 PWM 占空比
+ * \param  timNum 定时器编号 1~5、8~10
+ * \param  chNum 通道编号 1~4
+ * \param  duty 占空比 0~10000 (0.00% ~ 100.00%)
  */
 void timer_pwmOut_setDuty(u8 timNum, u8 chNum, u16 duty)
 {
     if (timNum <= 0 || timNum == 6 || timNum == 7 || timNum >= 11)
         return;
 
-    u16 arr = timTimePort[timNum]->ATRLR + 1;
+    u16 arr   = timTimePort[timNum]->ATRLR + 1;
     u16 pulse = (u32)duty * arr / 10000;
 
     if (chNum == 1)
