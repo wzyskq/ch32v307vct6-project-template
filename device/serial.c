@@ -23,7 +23,7 @@ volatile u8 srlPidFlg = 0;
 volatile u8 srlCmdBuf[SRL_BUF_LLEN];
 volatile u8 srlCmdFlg = 0;
 volatile u8 srlPkgBuf[SRL_BUF_LLEN];
-volatile u8 srlPkgFlg = 0; 
+volatile u8 srlPkgFlg = 0;
 
 // u8 signXFlag = 0;
 // u8 signDFlag = 0;
@@ -250,7 +250,7 @@ void serial_decode_cmd(void)
 
     u8 *cCmd = srlCmdBuf + 1; // 正文指针
     u8 *rCmd = NULL;          // 传递指针
-    u8 arg = 0;
+    s16 arg  = 0;
 
     if (rCmd = strmatch_s(cCmd, "srl")) {
         if (cCmd = strmatch_s(rCmd, "-r")) {
@@ -269,6 +269,14 @@ void serial_decode_cmd(void)
         } else if (cCmd = strmatch_s(rCmd, "-o")) {
             arg = strtof(cCmd, NULL);
             led_off(arg);
+        }
+    } else if (rCmd = strmatch_s(cCmd, "servo")) {
+        if (cCmd = strmatch_s(rCmd, "-p")) {
+            arg = strtof(cCmd, NULL); // 获取位置
+            servo_set_pos(3, 4, arg); // 设置舵机位置
+        } else if (cCmd = strmatch_s(rCmd, "-s")) {
+            arg = strtof(cCmd, NULL); // 获取速度
+            servo_set_spd(3, 4, arg); // 设置舵机速度
         }
     } else if (infoFlag) {
         serial_printf(USART2, "> Unknown CMD\n");

@@ -30,17 +30,17 @@ int main(void)
     SystemCoreClockUpdate();
     delay_init();
 
-    leds_init();
-    
     serial_init(1, 115200, 0); // USART1 初始化
     serial_init(2, 115200, 1); // USART2 初始化
     serial_init(3, 115200, 2); // USART3 初始化
-    
+
+    leds_init();
+    // timer_pwmOut_init(3, 4, 14400, 200); // TIM2_CH1 PWM 输出初始化，频率 50Hz
+
     leds_toggle(1, 2);
     serial_printf(USART2, "USART2: online.\r\n");
 
-    while (1)
-    {
+    while (1) {
         serial_decode_sig();
         serial_decode_pkg();
         serial_decode_pid();

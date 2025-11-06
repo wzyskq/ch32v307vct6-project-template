@@ -24,8 +24,10 @@
 /* -------------------------------- User Includes */
 
 #include "funs.h"
-#include "led.h"
+#include "timer.h"
 #include "serial.h"
+#include "led.h"
+#include "servo.h"
 
 /* -------------------------------- Exported Variable */
 
