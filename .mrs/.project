@@ -20,7 +20,23 @@
     <nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
     <nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
   </natures>
-  <linkedResources/>
+  <linkedResources>
+    <link>
+      <name>user</name>
+      <type>2</type>
+      <location>PARENT-1-PROJECT_LOC/user</location>
+    </link>
+    <link>
+      <name>device</name>
+      <type>2</type>
+      <location>PARENT-1-PROJECT_LOC/device</location>
+    </link>
+    <link>
+      <name>sdk</name>
+      <type>2</type>
+      <location>PARENT-1-PROJECT_LOC/sdk</location>
+    </link>
+  </linkedResources>
   <filteredResources>
     <filter>
       <name/>

@@ -4,15 +4,15 @@ type: RISC-V
 deviceName: null
 packDir: null
 srcDirs:
-  - sdk
-  - user
-  - device
+  - ../sdk
+  - ../user
+  - ../device
 virtualFolder:
   name: <virtual_root>
   files: []
   folders: []
 dependenceList: []
-outDir: obj.eide
+outDir: obj
 miscInfo:
   uid: eeccd801a121579e712f40921f0482e3
 targets:
@@ -20,19 +20,19 @@ targets:
     cppPreprocessAttrs:
       defineList: []
       incList:
-        - sdk/Peripheral/inc
-        - sdk/Core
-        - sdk/Debug
-        - device
-        - user
+        - ../sdk/Peripheral/inc
+        - ../sdk/Core
+        - ../sdk/Debug
+        - ../device
+        - ../user
       libList: []
     excludeList:
-      - Startup/startup_ch32v30x_D8.S
-      - sdk/Startup/startup_ch32v30x_D8.S
+      - ../Startup/startup_ch32v30x_D8.S
+      - ../sdk/Startup/startup_ch32v30x_D8.S
     toolchain: RISCV_GCC
     toolchainConfigMap:
       RISCV_GCC:
-        linkerScriptPath: sdk/Ld/Link.ld
+        linkerScriptPath: ../sdk/Ld/Link.ld
         options:
           version: 2
           afterBuildTasks:
@@ -53,7 +53,7 @@ targets:
             no-use-cxa-atexit: true
             one-elf-section-per-data: true
             one-elf-section-per-function: true
-            optimization: level-debug
+            optimization: level-size
             optimization-lto: true
             signed-char: true
             warnings: all-warnings
@@ -71,8 +71,7 @@ targets:
     uploadConfigMap:
       Custom:
         bin: ${ExecutableName}.bin
-        # commandLine: download.cmd ${programFile}
-        commandLine: download.cmd ./obj.eide/Debug/ch32v307vct6.bin
+        commandLine: cd .vscode && download.cmd obj/Debug/ch32v307vct6.bin
         eraseChipCommand: ""
       JLink:
         baseAddr: "0x08000000"
@@ -88,5 +87,4 @@ targets:
         bin: ""
         interface: ${workspaceFolder}/tools/wch-interface
         target: ${workspaceFolder}/tools/wch-interface
-    uploader: Custom
-                                                                                         
+    uploader: OpenOCD
