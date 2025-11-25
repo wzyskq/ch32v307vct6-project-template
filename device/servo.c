@@ -8,12 +8,12 @@
 /* -------------------------------- Global Functions */
 
 /******************************************************************
- * \brief  设置舵机速度
- * \param  timNum 定时器编号 1~5、6~10
- * \param  chNum 通道编号 1~4
- * \param  spd 速度 -1000 ~ 1000
- * \note   理论上舵机受控范围为 0.5ms ~ 2.5ms（对应占空比 2.5% ~ 12.5%）
- *         但是实际我拿到的舵机（360°）受控范围为 0.5ms ~ 1.5ms（对应占空比 2.5% ~ 7.5%）
+ * \brief      设置舵机速度
+ * \param[in]  timNum 定时器编号 1~5、6~10
+ * \param[in]  chNum 通道编号 1~4
+ * \param[in]  spd 速度 -1000 ~ 1000
+ * \note       理论上舵机受控范围为 0.5ms ~ 2.5ms（对应占空比 2.5% ~ 12.5%）
+ *             但是实际我拿到的舵机（360°）受控范围为 0.5ms ~ 1.5ms（对应占空比 2.5% ~ 7.5%）
  */
 void servo_set_spd(u8 timNum, u8 chNum, s16 spd)
 {
@@ -24,10 +24,10 @@ void servo_set_spd(u8 timNum, u8 chNum, s16 spd)
 }
 
 /******************************************************************
- * \brief  设置舵机位置
- * \param  timNum 定时器编号 1~5、6~10
- * \param  chNum 通道编号 1~4
- * \param  pos 位置 0 ~ 180
+ * \brief      设置舵机位置
+ * \param[in]  timNum 定时器编号 1~5、6~10
+ * \param[in]  chNum 通道编号 1~4
+ * \param[in]  pos 位置 0 ~ 180
  */
 void servo_set_pos(u8 timNum, u8 chNum, u8 pos)
 {

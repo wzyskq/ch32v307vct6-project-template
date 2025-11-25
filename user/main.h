@@ -14,12 +14,12 @@
 
 /* -------------------------------- Exported Macro */
 
-#define SRL_TIMEOUT  200 // 超时限制（单位：10ms）
-#define SRL_BUF_SLEN 8   // 短缓冲区
-#define SRL_BUF_MLEN 16  // 中缓冲区
-#define SRL_BUF_LLEN 256 // 长缓冲区
-
 /* -------------------------------- Exported Typedefs */
+
+typedef enum {
+    LOW = 0,
+    HIGH = 1
+} level_t;
 
 /* -------------------------------- User Includes */
 
@@ -32,7 +32,7 @@
 /* -------------------------------- Exported Variable */
 
 extern u8 infoFlag;  // 信息标志
-extern u8 debugFlag; // 调试标志
+extern u8 srlReFlag; // 调试标志
 
 /* -------------------------------- Exported Functions */
 

@@ -15,7 +15,7 @@
 /* -------------------------------- Global Variable */
 
 u8 infoFlag  = 1; // 信息标志
-u8 debugFlag = 0; // 调试标志
+u8 srlReFlag = 0; // 调试标志
 
 /* -------------------------------- Main Function */
 
@@ -37,7 +37,6 @@ int main(void)
     leds_init();
     // timer_pwmOut_init(3, 34, 14400, 200); // TIM3_CH3/CH4 PWM 输出初始化，频率 50Hz
 
-    leds_toggle(1, 2);
     serial_printf(USART2, "USART2: online.\r\n");
 
     while (1) {

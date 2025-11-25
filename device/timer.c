@@ -12,9 +12,8 @@ static GPIO_TypeDef *timGpioPort[][4] = {
     {GPIOA, GPIOA, GPIOB, GPIOB}, // TIM3: PA6,7, PB0,1
     {GPIOB, GPIOB, GPIOB, GPIOB}, // TIM4: PB6,7,8,9
     {GPIOA, GPIOA, GPIOA, GPIOA}, // TIM5: PA0,1,2,3
-
-    {0, 0, 0, 0},
-    {0, 0, 0, 0},
+    {0, 0, 0, 0},                 // TIM6
+    {0, 0, 0, 0},                 // TIM7
     {GPIOC, GPIOC, GPIOC, GPIOC}, // TIM8: PC6,7,8,9
     {GPIOA, GPIOA, GPIOA, GPIOA}, // TIM9: PA2,3,4,5
     {GPIOB, GPIOB, GPIOC, GPIOC}  // TIM10: PB8,9, PC3,11
@@ -29,11 +28,11 @@ static const u16 timGpioPin[][4] = {
     {GPIO_Pin_6, GPIO_Pin_7, GPIO_Pin_0, GPIO_Pin_1},   // TIM3
     {GPIO_Pin_6, GPIO_Pin_7, GPIO_Pin_8, GPIO_Pin_9},   // TIM4
     {GPIO_Pin_0, GPIO_Pin_1, GPIO_Pin_2, GPIO_Pin_3},   // TIM5
-    {0, 0, 0, 0},
-    {0, 0, 0, 0},
-    {GPIO_Pin_6, GPIO_Pin_7, GPIO_Pin_8, GPIO_Pin_9}, // TIM8
-    {GPIO_Pin_2, GPIO_Pin_3, GPIO_Pin_4, GPIO_Pin_5}, // TIM9
-    {GPIO_Pin_8, GPIO_Pin_9, GPIO_Pin_3, GPIO_Pin_11} // TIM10
+    {0, 0, 0, 0},                                       // TIM6
+    {0, 0, 0, 0},                                       // TIM7
+    {GPIO_Pin_6, GPIO_Pin_7, GPIO_Pin_8, GPIO_Pin_9},   // TIM8
+    {GPIO_Pin_2, GPIO_Pin_3, GPIO_Pin_4, GPIO_Pin_5},   // TIM9
+    {GPIO_Pin_8, GPIO_Pin_9, GPIO_Pin_3, GPIO_Pin_11}   // TIM10
 };
 
 /* -------------------------------------------------- Global Functions */

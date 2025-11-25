@@ -3,6 +3,13 @@
 
 #include "main.h"
 
+/* -------------------------------- Exported Macro */
+
+#define SRL_TIMEOUT  200 // 超时限制（单位：10ms）
+#define SRL_BUF_SLEN 8   // 短缓冲区
+#define SRL_BUF_MLEN 16  // 中缓冲区
+#define SRL_BUF_LLEN 256 // 长缓冲区
+
 /* -------------------------------- Exported Variables */
 
 extern volatile u8 srlSigBuf[];
@@ -37,9 +44,5 @@ void serial_decode_pkg(void);
 
 // u8 serial_wait_if(u8 *flagString, u8 (*getFlagFun)(void));
 // void serial_wait_while(u8 *flagString, u8 (*getFlagFun)(void));
-
-/* 获取标志位函数 */
-// u8 get_sign_x_flag(void);
-// u8 get_sign_d_flag(void);
 
 #endif
