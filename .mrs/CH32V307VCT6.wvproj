@@ -9,12 +9,26 @@
 			"rtos": "NoneOS",
 			"mcu": "CH32V307VCT6",
 			"description": "Website: http://www.wch.cn/products/CH32V307.html?\\nROM(byte): 256K, SRAM(byte): 64K, CHIP PINS: 100, GPIO PORTS: 80.\\nWCH CH32V3 series of mainstream MCUs covers the needs of a large variety of applications in the industrial,medical and consumer markets. High performance with first-class peripherals and low-power,low-voltage operation is paired with a high level of integration at accessible prices with a simple architecture and easy-to-use tools.",
+			"artifactType": "executable",
 			"link": "WCH-Link",
 			"peripheral_version": "2.9",
 			"calibrateSupport": false,
 			"calibrateCommand": ""
 		},
-		"linkedFolders": [],
+		"linkedFolders": [
+			{
+				"name": "user",
+				"location": "../user"
+			},
+			{
+				"name": "device",
+				"location": "../device"
+			},
+			{
+				"name": "sdk",
+				"location": "../sdk"
+			}
+		],
 		"removedResources": [
 			{
 				"parentLogicPath": "",
@@ -210,7 +224,9 @@
 					},
 					"miscellaneous": {
 						"picolibc": "disabled",
-						"linker_flags": [],
+						"linker_flags": [
+							"--print-memory-usage"
+						],
 						"other_objects": [],
 						"generate_map": "\"${BuildArtifactFileBaseName}.map\"",
 						"cross_reference": false,
@@ -246,7 +262,9 @@
 					},
 					"miscellaneous": {
 						"picolibc": "disabled",
-						"linker_flags": [],
+						"linker_flags": [
+							"--print-memory-usage"
+						],
 						"other_objects": [],
 						"generate_map": "\"${BuildArtifactFileBaseName}.map\"",
 						"cross_reference": false,
@@ -294,6 +312,7 @@
 					"show_totals": false,
 					"other_flags": ""
 				},
+				"configVariables": [],
 				"riscvTargetProcessor": {
 					"architecture": "rv32i",
 					"multiply_extension": true,
@@ -313,8 +332,7 @@
 					"other_target_flags": ""
 				},
 				"component_toolchain": "${WCH:Toolchain:GCC8}",
-				"name": "obj",
-				"configVariables": []
+				"name": "obj"
 			}
 		]
 	},

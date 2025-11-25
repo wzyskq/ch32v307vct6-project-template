@@ -1,10 +1,10 @@
-# vscode files
-.vscode/launch.json
-.eide/log
+# mrs && vscode files
+.mrs/.mrs
+.vscode/.vscode/launch.json
+.vscode/.eide/log
 
 # project out
 obj
-obj.eide
 
 # eide template
 *.ept
