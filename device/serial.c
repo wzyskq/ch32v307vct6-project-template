@@ -14,8 +14,9 @@ static const u16 srlGpioPinRx[4] = {0, GPIO_Pin_10, GPIO_Pin_3, GPIO_Pin_11};
 
 /* -------------------------------- Global Variables */
 
-// 串口接收缓冲区
+u8 srlReFlag = 0; // 串口调试返回标志位
 
+/* 串口接收缓冲区 */
 volatile u8 srlSigBuf[SRL_BUF_SLEN];
 volatile u8 srlSigFlg = 0;
 volatile u8 srlPidBuf[SRL_BUF_MLEN];
@@ -270,7 +271,7 @@ void serial_decode_cmd(void)
             arg = strtof(cCmd, NULL);        // 获取占空比
             timer_pwmOut_setDuty(t, c, arg); // 直接设置占空比
         }
-    } else if (infoFlag) {
+    } else if (srlReFlag) {
         serial_printf(USART2, "> Unknown CMD\n");
     }
 

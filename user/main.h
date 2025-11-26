@@ -27,12 +27,11 @@ typedef enum {
 #include "timer.h"
 #include "serial.h"
 #include "led.h"
+#include "oled.h"
 #include "servo.h"
+#include "sys.h"
 
 /* -------------------------------- Exported Variable */
-
-extern u8 infoFlag;  // 信息标志
-extern u8 srlReFlag; // 调试标志
 
 /* -------------------------------- Exported Functions */
 

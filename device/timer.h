@@ -3,7 +3,7 @@
 
 #include "main.h"
 
-/* -------------------------------- Global Functions */
+/* -------------------------------- Exported Functions */
 
 /* 初始化函数 */
 

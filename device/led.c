@@ -1,6 +1,6 @@
 #include "led.h"
 
-/* -------------------------------- Global Macro */
+/* -------------------------------- Static Macro */
 
 #define LED_NUM 2   // LED 数量
 #define LED_ON  LOW // LED 点亮电平

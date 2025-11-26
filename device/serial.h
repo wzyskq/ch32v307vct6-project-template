@@ -12,6 +12,8 @@
 
 /* -------------------------------- Exported Variables */
 
+extern u8 srlReFlag;
+
 extern volatile u8 srlSigBuf[];
 extern volatile u8 srlSigFlg;
 extern volatile u8 srlPidBuf[];
