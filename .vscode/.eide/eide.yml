@@ -1,12 +1,13 @@
 version: "4.1"
 name: ch32v307vct6
 type: RISC-V
-deviceName: null
+deviceName: CH32V307VCT6
 packDir: null
 srcDirs:
   - ../sdk
-  - ../user
-  - ../device
+  - ../app
+  - ../drivers
+  - ../vendor
 virtualFolder:
   name: <virtual_root>
   files: []
@@ -20,15 +21,27 @@ targets:
     cppPreprocessAttrs:
       defineList: []
       incList:
-        - ../sdk/Peripheral/inc
+        - ../sdk
         - ../sdk/Core
         - ../sdk/Debug
-        - ../device
-        - ../user
+        - ../sdk/Peripheral/inc
+        - ../sdk/User
+        - ../app
+        - ../app/core
+        - ../app/utils
+        - ../drivers
+        - ../drivers/exti
+        - ../drivers/gpio
+        - ../drivers/i2c
+        - ../drivers/tim
+        - ../drivers/usart
+        - ../vendor
+        - ../vendor/ZDT
       libList: []
     excludeList:
-      - ../Startup/startup_ch32v30x_D8.S
       - ../sdk/Startup/startup_ch32v30x_D8.S
+    settings:
+      debugger: cortex-debug
     toolchain: RISCV_GCC
     toolchainConfigMap:
       RISCV_GCC:
@@ -65,7 +78,8 @@ targets:
             output-debug-info: enable
           linker:
             $toolName: auto
-            LD_FLAGS: -Xlinker --gc-sections -nostartfiles
+            LD_FLAGS: -Xlinker --gc-sections -nostartfiles -u _printf_float
+            LIB_FLAGS: -lm
             output-format: elf
             remove-unused-input-sections: true
     uploadConfigMap:
