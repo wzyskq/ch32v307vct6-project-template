@@ -46,16 +46,13 @@ At one point, I encountered a situation where Scheme 1 could flash but failed ve
 │  ├─.vscode
 │  ├─obj      (EIDE build output)
 │  └─tools    (OpenOCD flashing interface files)
-├─device      (driver files, other code)
-├─sdk         (software development kit)
-│  ├─Core
-│  ├─Debug
-│  ├─Ld
-│  ├─Peripheral
-│  │  ├─inc
-│  │  └─src
-│  └─Startup
-└─user        (main function/interrupt files)
+├─app
+│  ├─core
+│  └─utils
+├─drivers
+│  └─gpio
+├─sdk
+└─vendor
 ```
 
 **Additional Note**  

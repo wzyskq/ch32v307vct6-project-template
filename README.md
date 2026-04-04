@@ -46,21 +46,18 @@ VSCode 打开 `.vscode/CH32V307VCT6.code-workspace` 工作区文件，修改**�
 │  ├─.vscode
 │  ├─obj      （EIDE 编译程序文件夹）
 │  └─tools    （OpenOCD 烧录接口文件）
-├─device      （驱动文件、其他代码）
-├─sdk         （软件开发工具包）
-│  ├─Core
-│  ├─Debug
-│  ├─Ld
-│  ├─Peripheral
-│  │  ├─inc
-│  │  └─src
-│  └─Startup
-└─user        （主函数/中断函数等文件）
+├─app
+│  ├─core
+│  └─utils
+├─drivers
+│  └─gpio
+├─sdk
+└─vendor
 ```
 
 **补充说明**
-- 根目录下的 `.mrs` 和 `.vscode` 是我自己创建的
-- 其下的子目录 `.mrs` 和 `.vscode` 才是由 MRS2 和 VSCode 生成的配置文件
+- 根目录下的 `.mrs` 和 `.vscode` 是由笔者创建的
+- 其下的子目录 `.mrs` 和 `.vscode` 是由 MRS2 和 VSCode 生成的配置文件
 
 ## 问题反馈
 如有任何问题或建议，欢迎通过 GitHub 提交 Issue 或 Pull Request。

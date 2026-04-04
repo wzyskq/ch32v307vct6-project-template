@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <projectDescription>
-  <name>CH32V307VCT6</name>
+  <name>ch32v307vct6</name>
   <comment/>
   <projects/>
   <buildSpec>
@@ -22,19 +22,24 @@
   </natures>
   <linkedResources>
     <link>
-      <name>user</name>
+      <name>drivers</name>
       <type>2</type>
-      <location>PARENT-1-PROJECT_LOC/user</location>
-    </link>
-    <link>
-      <name>device</name>
-      <type>2</type>
-      <location>PARENT-1-PROJECT_LOC/device</location>
+      <location>PARENT-1-PROJECT_LOC/drivers</location>
     </link>
     <link>
       <name>sdk</name>
       <type>2</type>
       <location>PARENT-1-PROJECT_LOC/sdk</location>
+    </link>
+    <link>
+      <name>app</name>
+      <type>2</type>
+      <location>PARENT-1-PROJECT_LOC/app</location>
+    </link>
+    <link>
+      <name>vendor</name>
+      <type>2</type>
+      <location>PARENT-1-PROJECT_LOC/vendor</location>
     </link>
   </linkedResources>
   <filteredResources>
