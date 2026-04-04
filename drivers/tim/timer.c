@@ -4,6 +4,8 @@
 
 /* Private Variables ------------------------------------------------------- */
 
+// 参考信息列表
+//
 // static const u32 timRccTim[] = {
 //     [tim1]  = RCC_APB2Periph_TIM1,
 //     [tim2]  = RCC_APB1Periph_TIM2,
@@ -43,19 +45,6 @@
 //     [tim10] = {GPIOB, GPIOB, GPIOC, GPIOC}  // TIM10: PB8,9, PC3,11
 // };
 //
-// static TIM_TypeDef *timTimePort[] = {
-//     [tim1]  = TIM1,
-//     [tim2]  = TIM2,
-//     [tim3]  = TIM3,
-//     [tim4]  = TIM4,
-//     [tim5]  = TIM5,
-//     [tim6]  = TIM6,
-//     [tim7]  = TIM7,
-//     [tim8]  = TIM8,
-//     [tim9]  = TIM9,
-//     [tim10] = TIM10,
-// };
-//
 // static const IRQn_Type timTimeIRQn[] = {
 //     [tim1]  = TIM1_UP_IRQn,
 //     [tim2]  = TIM2_IRQn,
@@ -67,19 +56,6 @@
 //     [tim8]  = TIM8_UP_IRQn,
 //     [tim9]  = TIM9_UP_IRQn,
 //     [tim10] = TIM10_UP_IRQn,
-// };
-//
-// static const u16 timGpioPin[][4] = {
-//     [tim1]  = {GPIO_Pin_8, GPIO_Pin_9, GPIO_Pin_10, GPIO_Pin_11},
-//     [tim2]  = {GPIO_Pin_0, GPIO_Pin_1, GPIO_Pin_2, GPIO_Pin_3},
-//     [tim3]  = {GPIO_Pin_6, GPIO_Pin_7, GPIO_Pin_0, GPIO_Pin_1},
-//     [tim4]  = {GPIO_Pin_6, GPIO_Pin_7, GPIO_Pin_8, GPIO_Pin_9},
-//     [tim5]  = {GPIO_Pin_0, GPIO_Pin_1, GPIO_Pin_2, GPIO_Pin_3},
-//     [tim6]  = {0, 0, 0, 0},
-//     [tim7]  = {0, 0, 0, 0},
-//     [tim8]  = {GPIO_Pin_6, GPIO_Pin_7, GPIO_Pin_8, GPIO_Pin_9},
-//     [tim9]  = {GPIO_Pin_2, GPIO_Pin_3, GPIO_Pin_4, GPIO_Pin_5},
-//     [tim10] = {GPIO_Pin_8, GPIO_Pin_9, GPIO_Pin_3, GPIO_Pin_11},
 // };
 
 static const tim_s timList[] = {

@@ -42,8 +42,6 @@ void TIM7_IRQHandler(void)
 
         timer_pwmIn_readData(tim3, &timPwmInData); // 读取 PWM 输入测量结果
 
-        // whlCnt = timer_encoder_readCnt(tim3, normal); // 读取编码器计数值
-
         u32 t = sysTime / 100;
 
         if (t % 2 == 0) {

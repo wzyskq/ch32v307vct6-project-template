@@ -3,6 +3,8 @@
  **
  ** \author  Yiiry
  **
+ ** \date    2026-04 
+ **
  ** \brief  本文件（zdt_api.c/.h）主要功能为处理电机返回数据包的接收、解析
  **
  ** \pre    需配合 Emm_V5.c/.h 使用
@@ -23,20 +25,20 @@
  **
  ** \example  // 判断状态方式一：短时阻塞
  **             while (zdtTvFlg); // 等待清零
- **             Emm_V5_Vel_Control(4, 1, 0, 60, 0, false);
+ **             Emm_V5_Vel_Control(ZDT_SRL, 1, 0, 60, 0, false);
  **             while (zdtTvFlg); // 等待清零
- **             Emm_V5_Vel_Control(4, 1, 0, 30, 0, false);
+ **             Emm_V5_Vel_Control(ZDT_SRL, 1, 0, 30, 0, false);
  **
  ** \example  // 判断状态方式二：跳出逻辑
  **             if (!zdtTvFlg) {
- **                 Emm_V5_Vel_Control(4, 1, 0, 60, 0, false);
+ **                 Emm_V5_Vel_Control(ZDT_SRL, 1, 0, 60, 0, false);
  **                 // ... 其他命令 ...
  **             } else return; // 或者其他处理方式
  **
  ** \example  // 获取实时数据
- **             Emm_V5_Read_Sys_Params(4, 1, S_VEL);                   // 申请获取速度
- **             while (zdtTvFlg);                                      // 等待更新数据
- **             serial_printf(1, "v = %d rpm\n", (s32)zdtSysData.vel); // 串口打印数据
+ **             Emm_V5_Read_Sys_Params(ZDT_SRL, 1, S_VEL);                     // 申请获取速度
+ **             while (zdtTvFlg);                                              // 等待更新数据
+ **             serial_printf(SRL_RESRL, "v = %d rpm\n", (s32)zdtSysData.vel); // 串口打印数据
  **
  ** \note   Tips:
  **         - 减小定时器时基和最大超时周期可以提高数据接收的实时性，但过小也可能会增加丢包风险.
@@ -108,7 +110,7 @@ void zdt_irqTimeoutHandler(void)
     if (zdtTimeoutFlg && zdtTvFlg)
         zdtTimeoutCnt++;
 
-    if (zdtTimeoutCnt >= (ZDT_TIMEOUT * 2)) { // 接收超时时长
+    if (zdtTimeoutCnt >= (ZDT_TIMEOUT * 2)) { // 接收超时时长（单位为定时器周期，这里定时器周期为 0.5ms，所以乘以 2 转换为 ms）
         zdtTimeoutFlg = false;                // 设置超时标志位
         zdtTvFlg      = false;                // 取消发送标志位，允许发送新数据
         zdtTimeoutCnt = 0;                    // 重置超时计数
